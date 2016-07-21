@@ -1,4 +1,7 @@
 " Sections:
+"       -> Plugin Management 插件管理
+"       -> Plugin Settings 插件设置
+"
 "       -> Initial Plugin 加载插件
 "       -> General Settings 基础设置
 "       -> Display Settings 展示/排版等界面格式设置
@@ -8,8 +11,6 @@
 "       -> FileType Settings  针对文件类型的设置
 "       -> Theme Settings  主题设置
 "
-"       -> 插件管理
-"       -> 插件设置
 "==========================================
 
 
@@ -62,7 +63,6 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-
 
 
 "==========================================
