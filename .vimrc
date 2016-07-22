@@ -48,6 +48,8 @@ Plugin 'honza/vim-snippets'
 Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'elzr/vim-json'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -259,7 +261,20 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
     let g:ctrlp_mruf_max=500
     let g:ctrlp_follow_symlinks=1
 
+" multiple-cursors
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+      exe 'NeoCompleteLock'
+        endif
+        endfunction
 
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+      exe 'NeoCompleteUnlock'
+        endif
+        endfunction
 
 "==========================================
 " General Settings 基础设置
