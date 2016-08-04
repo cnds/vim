@@ -46,9 +46,13 @@ Plugin 'shougo/neocomplete.vim'
 Plugin 'SirVer/ultisnips' 
 Plugin 'honza/vim-snippets'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'elzr/vim-json'
+"javascript
+Plugin 'othree/yajs.vim'
+Plugin 'pangloss/vim-javascript'
 
 
 " All of your Plugins must be added before the following line
@@ -103,8 +107,8 @@ map <F9> :TagbarToggle<cr>
     let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
 
     " if js
-    " let g:syntastic_javascript_checkers = ['jsl', 'jshint']
-    " let g:syntastic_html_checkers=['tidy', 'jshint']
+    let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+    let g:syntastic_html_checkers=['tidy', 'jshint']
 
     " to see error location list
     let g:syntastic_always_populate_loc_list = 1
@@ -275,6 +279,15 @@ function! Multiple_cursors_after()
       exe 'NeoCompleteUnlock'
         endif
         endfunction
+
+" javascript {{{
+    " pangloss/vim-javascript
+    let g:html_indent_inctags = "html,body,head,tbody"
+    let g:html_indent_script1 = "inc"
+    let g:html_indent_style1 = "inc"
+" }}}
+
+
 
 "==========================================
 " General Settings 基础设置
