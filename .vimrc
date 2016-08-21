@@ -50,6 +50,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'elzr/vim-json'
+Plugin 'ekalinin/dockerfile.vim'
 "javascript
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
