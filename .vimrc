@@ -321,7 +321,7 @@ set cursorcolumn
 set cursorline
 
 " 设置 退出vim后，内容显示在终端屏幕, 可以用于查看和复制, 不需要可以去掉
-set t_ti= t_te=
+" set t_ti= t_te=
 
 " change the terminal's title
 set title
