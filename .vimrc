@@ -39,14 +39,11 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
-Plugin 'tomasr/molokai'
 Plugin 'raimondi/delimitmate'
 Plugin 'scrooloose/syntastic'
 Plugin 'shougo/neocomplete.vim'
 Plugin 'SirVer/ultisnips' 
 Plugin 'honza/vim-snippets'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'elzr/vim-json'
@@ -54,6 +51,12 @@ Plugin 'ekalinin/dockerfile.vim'
 "javascript
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
+"scheme
+Plugin 'tomasr/molokai'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'morhetz/gruvbox'
+Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 
 " All of your Plugins must be added before the following line
@@ -665,10 +668,12 @@ set t_Co=256
 
 " colorscheme solarized
 colorscheme molokai
-" colorscheme desert
+" colorscheme gruvbox
 
 " 透明背景
-" hi Normal ctermbg=none
+hi Normal ctermbg=none
+nnoremap <F7> :hi Normal ctermbg=none<CR>
+nnoremap <F8> :set background=dark<CR>
 
 " 设置标记一列的背景颜色和数字一行颜色一致
 hi! link SignColumn   LineNr
@@ -684,6 +689,4 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
-
 
