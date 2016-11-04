@@ -645,7 +645,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h14
+    set guifont=Monaco:h16
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12,Monospace\ 12
     endif
@@ -671,8 +671,8 @@ colorscheme molokai
 " colorscheme gruvbox
 
 " 透明背景
-hi Normal ctermbg=none
-nnoremap <F7> :hi Normal ctermbg=none<CR>
+hi Normal guibg=NONE ctermbg=NONE
+nnoremap <F7> :hi Normal guibg=NONE ctermbg=NONE<CR>
 nnoremap <F8> :set background=dark<CR>
 
 " 设置标记一列的背景颜色和数字一行颜色一致
