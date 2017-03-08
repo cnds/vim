@@ -20,8 +20,9 @@
 "==========================================
 
 " ################### 包依赖 #####################
-" package dependence:  ctags, ag(he_silver_searcher)
+" package dependence:  ctags
 " python dependence:   pep8, pyflake
+" youcompleteme dependence: cmake
 
 " Vundle　设置
 
@@ -41,7 +42,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'raimondi/delimitmate'
 Plugin 'scrooloose/syntastic'
-Plugin 'shougo/neocomplete.vim'
+Plugin 'valloric/youcompleteme'
 Plugin 'SirVer/ultisnips' 
 Plugin 'honza/vim-snippets'
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -51,12 +52,14 @@ Plugin 'ekalinin/dockerfile.vim'
 "javascript
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'othree/javascript-libraries-syntax.vim'
+"html
+Plugin 'othree/html5.vim'
 "scheme
-Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
-Plugin 'morhetz/gruvbox'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'tomasr/molokai'
 
 
 " All of your Plugins must be added before the following line
@@ -79,9 +82,6 @@ filetype plugin indent on    " required
 " Plugin Settings  插件设置
 "==========================================
 
-" 主题插件
-let g:molokai_original = 1
-let g:rehash256 = 1
 
 " ################### 快速导航 ###################
 
@@ -111,7 +111,7 @@ map <F9> :TagbarToggle<cr>
     let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
 
     " if js
-    let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+    let g:syntastic_javascript_checkers = ['jsl', 'jshint', 'eslint']
     let g:syntastic_html_checkers=['tidy', 'jshint']
 
     " to see error location list
@@ -160,80 +160,6 @@ map <F9> :TagbarToggle<cr>
     " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
     let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
 " }}}
-
-
-" neocomplete
-"Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
 " ultisnips {{{
     let g:UltiSnipsExpandTrigger       = "<tab>"
@@ -289,6 +215,8 @@ function! Multiple_cursors_after()
     let g:html_indent_inctags = "html,body,head,tbody"
     let g:html_indent_script1 = "inc"
     let g:html_indent_style1 = "inc"
+    " javascript-libraries-syntax
+    let g:used_javascript_libs = 'jquery,react,flux'
 " }}}
 
 
@@ -342,7 +270,6 @@ set whichwrap+=<,>,h,l
 "==========================================
 " Display Settings 展示/排版等界面格式设置
 "==========================================
-
 "set default window size
 set lines=180 columns=210
 
@@ -554,6 +481,7 @@ map <leader>tl :tablast<cr>
 
 map <leader>tj :tabnext<cr>
 map <leader>tk :tabprev<cr>
+
 map <leader>tn :tabnext<cr>
 map <leader>tp :tabprev<cr>
 
@@ -645,7 +573,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h16
+    set guifont=Monaco:h14
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12,Monospace\ 12
     endif
@@ -666,12 +594,16 @@ endif
 set background=dark
 set t_Co=256
 
-" colorscheme solarized
+" 主题插件
+" let g:molokai_original = 1
+" let g:rehash256 = 1
+
 colorscheme molokai
-" colorscheme gruvbox
+
+
 
 " 透明背景
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=none ctermbg=none
 nnoremap <F7> :hi Normal guibg=NONE ctermbg=NONE<CR>
 nnoremap <F8> :set background=dark<CR>
 
