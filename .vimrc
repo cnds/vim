@@ -49,6 +49,7 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'elzr/vim-json'
 Plugin 'ekalinin/dockerfile.vim'
+Plugin 'mileszs/ack.vim'
 "javascript
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
@@ -60,7 +61,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomasr/molokai'
-
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'morhetz/gruvbox'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -218,7 +220,6 @@ function! Multiple_cursors_after()
     " javascript-libraries-syntax
     let g:used_javascript_libs = 'jquery,react,flux'
 " }}}
-
 
 
 "==========================================
@@ -575,7 +576,7 @@ endif
 if has("gui_running")
     set guifont=Monaco:h14
     if has("gui_gtk2")   "GTK2
-        set guifont=Monaco\ 12,Monospace\ 12
+        set guifont=Monaco\ 12
     endif
     set guioptions-=T
     set guioptions+=e
@@ -598,7 +599,9 @@ set t_Co=256
 " let g:molokai_original = 1
 " let g:rehash256 = 1
 
-colorscheme molokai
+" colorscheme molokai
+colorscheme jellybeans
+" colorscheme gruvbox
 
 
 
@@ -621,4 +624,3 @@ highlight clear SpellRare
 highlight SpellRare term=underline cterm=underline
 highlight clear SpellLocal
 highlight SpellLocal term=underline cterm=underline
-
