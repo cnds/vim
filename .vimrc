@@ -50,8 +50,11 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'elzr/vim-json'
 Plugin 'ekalinin/dockerfile.vim'
 Plugin 'mileszs/ack.vim'
+<<<<<<< HEAD
 "python
 Plugin 'vim-python/python-syntax'
+=======
+>>>>>>> aa30ef070cbbeb9e2355fbda679b1cda469b4cfa
 "javascript
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
@@ -603,8 +606,13 @@ set t_Co=256
 let g:molokai_original = 1
 let g:rehash256 = 1
 
+<<<<<<< HEAD
 colorscheme molokai
 " colorscheme jellybeans
+=======
+" colorscheme molokai
+colorscheme jellybeans
+>>>>>>> aa30ef070cbbeb9e2355fbda679b1cda469b4cfa
 " colorscheme gruvbox
 
 
