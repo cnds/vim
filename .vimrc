@@ -50,11 +50,8 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'elzr/vim-json'
 Plugin 'ekalinin/dockerfile.vim'
 Plugin 'mileszs/ack.vim'
-<<<<<<< HEAD
 "python
 Plugin 'vim-python/python-syntax'
-=======
->>>>>>> aa30ef070cbbeb9e2355fbda679b1cda469b4cfa
 "javascript
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
@@ -73,7 +70,7 @@ Plugin 'morhetz/gruvbox'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+" filetype plugin on
 "
 " Brief help
 " :PluginList       - lists configured plugins
@@ -169,11 +166,12 @@ map <F9> :TagbarToggle<cr>
 " }}}
 
 " ultisnips {{{
-    let g:UltiSnipsExpandTrigger       = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+    let g:UltiSnipsExpandTrigger       = "<space>"
+    let g:UltiSnipsJumpForwardTrigger  = "<space>"
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
     let g:UltiSnipsEditSplit="vertical"
 " }}}
+
 
 " airline {{{
     if !exists('g:airline_symbols')
@@ -185,6 +183,7 @@ map <F9> :TagbarToggle<cr>
     let g:airline_right_alt_sep = '❮'
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
+    let g:airline_theme = 'gruvbox'
 
 
 " ctrlp ctrlpfunky{{{
@@ -274,6 +273,7 @@ set magic
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
+
 
 "==========================================
 " Display Settings 展示/排版等界面格式设置
@@ -589,6 +589,7 @@ if has("gui_running")
     set guioptions+=e
     set guioptions-=r
     set guioptions-=L
+    set guioptions-=m
     set guitablabel=%M\ %t
     set showtabline=1
     set linespace=2
@@ -603,17 +604,12 @@ set background=dark
 set t_Co=256
 
 " 主题插件
-let g:molokai_original = 1
-let g:rehash256 = 1
+" let g:molokai_original = 1
+" let g:rehash256 = 1
 
-<<<<<<< HEAD
-colorscheme molokai
-" colorscheme jellybeans
-=======
 " colorscheme molokai
-colorscheme jellybeans
->>>>>>> aa30ef070cbbeb9e2355fbda679b1cda469b4cfa
-" colorscheme gruvbox
+" colorscheme jellybeans
+colorscheme gruvbox
 
 
 
