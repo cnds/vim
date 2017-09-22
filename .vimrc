@@ -166,8 +166,8 @@ map <F9> :TagbarToggle<cr>
 " }}}
 
 " ultisnips {{{
-    let g:UltiSnipsExpandTrigger       = "<space>"
-    let g:UltiSnipsJumpForwardTrigger  = "<space>"
+    let g:UltiSnipsExpandTrigger       = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger  = "<tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
     let g:UltiSnipsEditSplit="vertical"
 " }}}
