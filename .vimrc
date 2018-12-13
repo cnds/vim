@@ -183,7 +183,7 @@ map <F9> :TagbarToggle<cr>
     let g:airline_right_alt_sep = '❮'
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
-    let g:airline_theme = 'gruvbox'
+    let g:airline_theme = 'molokai'
 
 
 " ctrlp ctrlpfunky{{{
@@ -600,16 +600,22 @@ endif
 
 
 " theme主题
+" if has('gui_running')
+"     set background=light
+" else
+"     set background=dark
+" endif
 set background=dark
 set t_Co=256
 
 " 主题插件
-" let g:molokai_original = 1
-" let g:rehash256 = 1
+let g:molokai_original = 1
+let g:rehash256 = 1
 
-" colorscheme molokai
+colorscheme molokai
 " colorscheme jellybeans
-colorscheme gruvbox
+" colorscheme gruvbox
+" colorscheme solarized
 
 
 
