@@ -29,57 +29,43 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Make sure you use single quotes
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'majutsushi/tagbar'
-Plugin 'raimondi/delimitmate'
-Plugin 'scrooloose/syntastic'
-Plugin 'valloric/youcompleteme'
-Plugin 'SirVer/ultisnips' 
-Plugin 'honza/vim-snippets'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'elzr/vim-json'
-Plugin 'ekalinin/dockerfile.vim'
-Plugin 'mileszs/ack.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+Plug 'raimondi/delimitmate'
+Plug 'scrooloose/syntastic'
+Plug 'valloric/youcompleteme', {'do': './install.py'}
+Plug 'SirVer/ultisnips' 
+Plug 'honza/vim-snippets'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'elzr/vim-json'
+Plug 'ekalinin/dockerfile.vim'
+Plug 'mileszs/ack.vim'
 "python
-Plugin 'vim-python/python-syntax'
+Plug 'vim-python/python-syntax'
 "javascript
-Plugin 'othree/yajs.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'othree/javascript-libraries-syntax.vim'
+Plug 'othree/yajs.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'othree/javascript-libraries-syntax.vim'
 "html
-Plugin 'othree/html5.vim'
+Plug 'othree/html5.vim'
 "scheme
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tomasr/molokai'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'morhetz/gruvbox'
+Plug 'altercation/vim-colors-solarized'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tomasr/molokai'
+Plug 'nanotech/jellybeans.vim'
+Plug 'morhetz/gruvbox'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-" filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Initialize plugin system
+call plug#end()
 
 
 "==========================================
@@ -183,7 +169,7 @@ map <F9> :TagbarToggle<cr>
     let g:airline_right_alt_sep = '❮'
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
-    let g:airline_theme = 'molokai'
+    let g:airline_theme = 'gruvbox'
 
 
 " ctrlp ctrlpfunky{{{
@@ -609,12 +595,12 @@ set background=dark
 set t_Co=256
 
 " 主题插件
-let g:molokai_original = 1
-let g:rehash256 = 1
+" let g:molokai_original = 1
+" let g:rehash256 = 1
 
-colorscheme molokai
+" colorscheme molokai
 " colorscheme jellybeans
-" colorscheme gruvbox
+colorscheme gruvbox
 " colorscheme solarized
 
 
