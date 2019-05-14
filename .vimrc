@@ -40,7 +40,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/syntastic'
-Plug 'valloric/youcompleteme', {'do': './install.py'}
+Plug 'valloric/youcompleteme', {'do': 'python3 install.py'}
 Plug 'SirVer/ultisnips' 
 Plug 'honza/vim-snippets'
 Plug 'ctrlpvim/ctrlp.vim'
