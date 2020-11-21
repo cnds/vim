@@ -20,7 +20,7 @@
 "==========================================
 
 " ################### 包依赖 #####################
-" package dependence:  ctags
+" package dependence:  ctag, brew install ctags-exuberant
 " python dependence:   pep8, pyflake
 " youcompleteme dependence: cmake
 
@@ -40,7 +40,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'majutsushi/tagbar'
 Plug 'raimondi/delimitmate'
 Plug 'scrooloose/syntastic'
-Plug 'valloric/youcompleteme', {'do': 'python3 install.py'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'valloric/youcompleteme', {'do': 'python3 install.py --all'}
 Plug 'SirVer/ultisnips' 
 Plug 'honza/vim-snippets'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -48,6 +49,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'elzr/vim-json'
 Plug 'ekalinin/dockerfile.vim'
 Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-fugitive'
 "python
 Plug 'vim-python/python-syntax'
 "javascript
@@ -62,7 +64,6 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
-Plug 'morhetz/gruvbox'
 
 " Initialize plugin system
 call plug#end()
@@ -169,7 +170,7 @@ map <F9> :TagbarToggle<cr>
     let g:airline_right_alt_sep = '❮'
     let g:airline_symbols.linenr = '¶'
     let g:airline_symbols.branch = '⎇'
-    let g:airline_theme = 'gruvbox'
+    let g:airline_theme = 'solarized'
 
 
 " ctrlp ctrlpfunky{{{
@@ -567,7 +568,7 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Monaco:h14
+    set guifont=Cascadia\ Code:h14
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12
     endif
@@ -578,7 +579,7 @@ if has("gui_running")
     set guioptions-=m
     set guitablabel=%M\ %t
     set showtabline=1
-    set linespace=2
+    set linespace=3
     set noimd
     set t_Co=256
 endif
@@ -586,12 +587,17 @@ endif
 
 
 " theme主题
-" if has('gui_running')
-"     set background=light
-" else
-"     set background=dark
-" endif
-set background=dark
+if has("gui_running")
+    colorscheme solarized
+    set background=light
+    let g:airline_theme = 'solarized'
+else
+    colorscheme molokai
+    set background=dark
+    let g:airline_theme = 'molokai'
+endif
+" set background=dark
+" set background=light
 set t_Co=256
 
 " 主题插件
@@ -600,14 +606,14 @@ set t_Co=256
 
 " colorscheme molokai
 " colorscheme jellybeans
-colorscheme gruvbox
 " colorscheme solarized
 
 
 
 " 透明背景
 " hi Normal guibg=none ctermbg=none
-nnoremap <F7> :hi Normal guibg=NONE ctermbg=NONE<CR>
+" nnoremap <F7> :hi Normal guibg=NONE ctermbg=NONE<CR>
+nnoremap <F7> :set background=light<CR>
 nnoremap <F8> :set background=dark<CR>
 
 " 设置标记一列的背景颜色和数字一行颜色一致
