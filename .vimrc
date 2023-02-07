@@ -24,7 +24,7 @@
 " python dependence:   pep8, pyflake
 " youcompleteme dependence: cmake
 
-" Vundle　设置
+" Plug　设置
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -36,34 +36,38 @@ call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
 
-Plug 'scrooloose/nerdtree'
-Plug 'majutsushi/tagbar'
-Plug 'raimondi/delimitmate'
+Plug 'scrooloose/nerdtree', {'do': ':NERDTreeToggle'}
 Plug 'scrooloose/syntastic'
+Plug 'liuchengxu/vista.vim'
+Plug 'raimondi/delimitmate'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'valloric/youcompleteme', {'do': 'python3 install.py --all'}
-Plug 'SirVer/ultisnips' 
-Plug 'honza/vim-snippets'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocInstall coc-snippets coc-pyright coc-go coc-tsserver coc-rust-analyzer coc-json'}
 Plug 'terryma/vim-multiple-cursors'
 Plug 'elzr/vim-json'
 Plug 'ekalinin/dockerfile.vim'
-Plug 'mileszs/ack.vim'
-Plug 'tpope/vim-fugitive'
+Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
+Plug 'voldikss/vim-floaterm'
+
 "python
 Plug 'vim-python/python-syntax'
+
 "javascript
 Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'othree/javascript-libraries-syntax.vim'
+
 "html
 Plug 'othree/html5.vim'
+
+"toml
+Plug 'cespare/vim-toml'
+
 "scheme
 Plug 'altercation/vim-colors-solarized'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tomasr/molokai'
-Plug 'nanotech/jellybeans.vim'
+Plug 'mhinz/vim-startify'
 
 " Initialize plugin system
 call plug#end()
@@ -79,16 +83,134 @@ call plug#end()
 " NERDTree
 map <F2> :NERDTreeToggle<cr>
 let NERDTreeHighlightCursorline=1
-let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$', '__pycache__' ]
 
 
-" Tagbar
-map <F9> :TagbarToggle<cr>
+" Vista
+map <F9> :Vista!!<cr>
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
 
+" How each level is indented and what to prepend.
+" This could make the display more compact or more spacious.
+" e.g., more compact: ["▸ ", ""]
+" Note: this option only works for the kind renderer, not the tree renderer.
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" See all the avaliable executives via `:echo g:vista#executives`.
+let g:vista_default_executive = 'ctags'
+
+" Set the executive for some filetypes explicitly. Use the explicit executive
+" instead of the default one for these filetypes when using `:Vista` without
+" specifying the executive.
+let g:vista_executive_for = {
+  \ 'cpp': 'vim_lsp',
+  \ 'php': 'vim_lsp',
+  \ }
+
+" Declare the command including the executable and options used to generate ctags output
+" for some certain filetypes.The file path will be appened to your custom command.
+" For example:
+let g:vista_ctags_cmd = {
+      \ 'haskell': 'hasktags -x -o - -c',
+      \ }
+
+" To enable fzf's preview window set g:vista_fzf_preview.
+" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
+" For example:
+let g:vista_fzf_preview = ['right:50%']
+let g:vista#renderer#enable_icon = 0
+
+
+set statusline+=%{NearestMethodOrFunction()}
+
+" By default vista.vim never run if you don't call it explicitly.
+"
+" If you want to show the nearest function in your statusline automatically,
+" you can add the following line to your vimrc
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+"Coc vim
+set nobackup
+set nowritebackup
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ CheckBackspace() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+" inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#confirm()
+"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env', 'venv', '.venv']
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " syntastic {{{
     " dependence
     " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
+
+    " 基本设置
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
 
     let g:syntastic_error_symbol='>>'
     let g:syntastic_warning_symbol='>'
@@ -96,21 +218,15 @@ map <F9> :TagbarToggle<cr>
     let g:syntastic_check_on_wq=0
     let g:syntastic_enable_highlighting=1
 
+
     " 中等
     " error code: http://pep8.readthedocs.org/en/latest/intro.html#error-codes
-    let g:syntastic_python_checkers=['pyflakes', 'pep8'] " 使用pyflakes,速度比pylint快
+    let g:syntastic_python_checkers=['pyflakes', 'pep8'] " 
     let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
 
     " if js
     let g:syntastic_javascript_checkers = ['jsl', 'jshint', 'eslint']
     let g:syntastic_html_checkers=['tidy', 'jshint']
-
-    " to see error location list
-    let g:syntastic_always_populate_loc_list = 1
-    let g:syntastic_enable_signs = 1
-    let g:syntastic_auto_loc_list = 0
-    let g:syntastic_auto_jump = 0
-    let g:syntastic_loc_list_height = 5
 
     function! ToggleErrors()
         let old_last_winnr = winnr('$')
@@ -153,9 +269,9 @@ map <F9> :TagbarToggle<cr>
 " }}}
 
 " ultisnips {{{
-    let g:UltiSnipsExpandTrigger       = "<tab>"
-    let g:UltiSnipsJumpForwardTrigger  = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    let g:UltiSnipsExpandTrigger       = "<c-n>"
+    let g:UltiSnipsJumpForwardTrigger  = "<c-n>"
+    let g:UltiSnipsJumpBackwardTrigger = "<c-p>"
     let g:UltiSnipsEditSplit="vertical"
 " }}}
 
@@ -172,21 +288,41 @@ map <F9> :TagbarToggle<cr>
     let g:airline_symbols.branch = '⎇'
     let g:airline_theme = 'solarized'
 
+" leaderf
+" don't show the help in normal mode
+let g:Lf_HideHelp = 1
+let g:Lf_UseCache = 0
+let g:Lf_UseVersionControlTool = 0
+let g:Lf_IgnoreCurrentBufferName = 1
+
+" Show icons, icons are shown by default
+let g:Lf_ShowDevIcons = 0
+" For GUI vim, the icon font can be specify like this, for example
+let g:Lf_DevIconsFont = "Cascadia Code"
+" popup mode
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_StlSeparator = { 'left': "\ue0b0", 'right': "\ue0b2", 'font': "Cascadia Code" }
+let g:Lf_PreviewResult = {'Function': 0, 'BufTag': 0 }
+
+let g:Lf_ShortcutF = "<leader>ff"
+noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg --current-buffer -e %s ", expand("<cword>"))<CR>
+noremap <C-F> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
 " ctrlp ctrlpfunky{{{
-    let g:ctrlp_map = '<leader>p'
-    let g:ctrlp_cmd = 'CtrlP'
-    map <leader>f :CtrlPMRU<CR>
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-        \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
-        \ }
-    let g:ctrlp_working_path_mode=0
-    let g:ctrlp_match_window_bottom=1
-    let g:ctrlp_max_height=15
-    let g:ctrlp_match_window_reversed=0
-    let g:ctrlp_mruf_max=500
-    let g:ctrlp_follow_symlinks=1
+    " let g:ctrlp_map = '<leader>p'
+    " let g:ctrlp_cmd = 'CtrlP'
+    " map <leader>f :CtrlPMRU<CR>
+    " let g:ctrlp_custom_ignore = {
+    "     \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+    "     \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+    "     \ }
+    " let g:ctrlp_working_path_mode=0
+    " let g:ctrlp_match_window_bottom=1
+    " let g:ctrlp_max_height=15
+    " let g:ctrlp_match_window_reversed=0
+    " let g:ctrlp_mruf_max=500
+    " let g:ctrlp_follow_symlinks=1
 
 " multiple-cursors
 " Called once right before you start selecting multiple cursors
@@ -205,6 +341,7 @@ function! Multiple_cursors_after()
 "python
 let g:python_highlight_all=1
 
+
 " javascript {{{
     " pangloss/vim-javascript
     let g:html_indent_inctags = "html,body,head,tbody"
@@ -213,6 +350,12 @@ let g:python_highlight_all=1
     " javascript-libraries-syntax
     let g:used_javascript_libs = 'jquery,react,flux'
 " }}}
+
+" floaterm
+let g:floaterm_shell = 'zsh'
+hi Floaterm guibg=gray
+nnoremap <F10> :FloatermToggle<CR>
+
 
 
 "==========================================
@@ -371,7 +514,7 @@ function! NumberToggle()
     set relativenumber
   endif
 endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+" nnoremap <C-n> :call NumberToggle()<cr>
 
 
 "==========================================
@@ -447,13 +590,14 @@ function! HideNumber()
   set number?
 endfunc
 nnoremap <F3> :call HideNumber()<CR>
+
+" F4 语法开关,关闭语法可以加快大文件的展示
+nnoremap <F4> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
+
 " F5 显示可打印字符开关
 nnoremap <F5> :set list! list?<CR>
 " F6 换行开关
 nnoremap <F6> :set wrap! wrap?<CR>
-
-" F4 语法开关，关闭语法可以加快大文件的展示
-nnoremap <F4> :exec exists('syntax_on') ? 'syn off' : 'syn on'<CR>
 
 " 去掉搜索高亮
 noremap <silent><leader>/ :nohls<CR>
@@ -568,7 +712,8 @@ endif
 
 " Set extra options when running in GUI mode
 if has("gui_running")
-    set guifont=Cascadia\ Code:h14
+    set guifont=Cascadia\ Code\ PL:h12
+    " set guifont=Monaco:h12
     if has("gui_gtk2")   "GTK2
         set guifont=Monaco\ 12
     endif
@@ -579,7 +724,7 @@ if has("gui_running")
     set guioptions-=m
     set guitablabel=%M\ %t
     set showtabline=1
-    set linespace=3
+    set linespace=4
     set noimd
     set t_Co=256
 endif
@@ -587,23 +732,23 @@ endif
 
 
 " theme主题
-if has("gui_running")
-    colorscheme solarized
-    set background=light
-    let g:airline_theme = 'solarized'
-else
-    colorscheme molokai
-    set background=dark
-    let g:airline_theme = 'molokai'
-endif
-" set background=dark
-" set background=light
+" if has("gui_running")
+"     colorscheme solarized
+"     set background=light
+"     let g:airline_theme = 'solarized'
+" else
+"     colorscheme molokai
+"     set background=dark
+"     let g:airline_theme = 'molokai'
+"     let g:molokai_original = 1
+" endif
+colorscheme solarized
+set background=light
+let g:rehash256 = 1
 set t_Co=256
 
-" 主题插件
-" let g:molokai_original = 1
-" let g:rehash256 = 1
 
+" 主题插件
 " colorscheme molokai
 " colorscheme jellybeans
 " colorscheme solarized
